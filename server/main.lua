@@ -80,6 +80,13 @@ QBCore.Functions.CreateCallback('qb-weapons:server:RepairWeapon', function(sourc
     TriggerClientEvent('qb-inventory:client:CheckWeapon', src, data.name)
     TriggerClientEvent('qb-weapons:client:SyncRepairShops', -1, Config.WeaponRepairPoints[RepairPoint], RepairPoint)
 
+    -- added function to remove weapon from player hands 
+    local ped = GetPlayerPed(src)
+    local weapon = GetSelectedPedWeapon(ped)
+    if weapon ~= `WEAPON_UNARMED` then
+        RemoveWeaponFromPed(ped, weapon)
+    end
+
     SetTimeout(Timeout, function()
         Config.WeaponRepairPoints[RepairPoint].IsRepairing = false
         Config.WeaponRepairPoints[RepairPoint].RepairingData.Ready = true
